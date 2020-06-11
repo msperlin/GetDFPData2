@@ -16,13 +16,13 @@ However, be aware that the output data is not the same. I kept all original colu
 
 ```
 if (!require(devtools)) install.packages('devtools')
-if (!require(GetCVMData)) devtools::install_github('msperlin/GetCVMData') # not in CRAN yet
+if (!require(GetDFPData2)) devtools::install_github('msperlin/GetDFPData2') # not in CRAN yet
 ```
 
 ## Example of usage
 
 ```
-library(GetCVMData)
+library(GetDFPData2)
 library(tidyverse)
 
 # fetch information about companies
