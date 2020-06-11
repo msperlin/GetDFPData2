@@ -1,16 +1,16 @@
 ---
-title: "Using GetCVMData "
+title: "Using GetDFPData2"
 author: "Marcelo Perlin"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using GetCVMData to obtain financial}
+  %\VignetteIndexEntry{Using GetDFPData to import financial documents from B3}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r}
-library(GetCVMData)
+library(GetDFPData2)
 
 # todo
 ```
