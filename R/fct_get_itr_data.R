@@ -5,10 +5,10 @@
 #' choices
 #'
 #' @inheritParams get_dfp_data
-#' @param individual_quarters Should the function calculate single quarters for companies: TRUE (default) or FALSE. Be aware the original data
-#' only includes accumulated quarters
+#' @param individual_dre_quarters Should the function calculate single quarters for companies: TRUE (default) or FALSE.
+#'  This option only applies for the DRE. Be aware that the original data only includes accumulated quarters.
 #'
-#' @return Dataframe with ITR data
+#' @return A list of tibbles, separated by column GRUPO_DFP
 #' @export
 #'
 #' @examples
@@ -21,7 +21,7 @@ get_itr_data <- function(companies_cvm_codes = NULL,
                          last_year = lubridate::year(Sys.Date()),
                          type_docs = c('BPA', 'BPP', 'DRE'),
                          type_format = c('con', 'ind'),
-                         individual_quarters = TRUE,
+                         individual_dre_quarters = TRUE,
                          clean_data = TRUE,
                          use_memoise = FALSE,
                          cache_folder = 'gcvmd_cache') {
@@ -78,7 +78,7 @@ get_itr_data <- function(companies_cvm_codes = NULL,
 
     mem_cache <- memoise::cache_filesystem(path = file.path(cache_folder, 'mem_cache'))
     download_read_itr_zip_file <- memoise::memoise(download_read_itr_zip_file,
-                                                       cache = mem_cache)
+                                                   cache = mem_cache)
   }
 
   df_itr <- dplyr::bind_rows(purrr::map(df_ftp_itr$full_links,
@@ -88,43 +88,75 @@ get_itr_data <- function(companies_cvm_codes = NULL,
                                         type_docs = type_docs,
                                         type_format = type_format))
 
-  # do calcuation of quarters
-  if (individual_quarters) {
+  # do calculation of quarters
+  if (individual_dre_quarters) {
+    # making sure cran check doesnt complain about undefined globals
+    CD_CONTA <- CD_CVM <- CNPJ_CIA <- COLUNA_DF <- DENOM_CIA <- NULL
+    DS_CONTA <- DT_FIM_EXERC <- DT_REFER <- ESCALA_MOEDA <- NULL
+    GRUPO_DFP <- MOEDA <- ORDEM_EXERC <- VL_CONTA <- NULL
+    my_year <- quarter <- source_file <- NULL
+
     # get annual data
 
     df_dfp <- get_dfp_data(companies_cvm_codes = companies_cvm_codes,
-                             first_year = first_year,
-                             last_year = last_year,
-                             type_docs = c('DRE'),
-                             type_format = type_format,
-                             clean_data = clean_data,
-                             use_memoise = use_memoise,
-                             cache_folder = cache_folder)
+                           first_year = first_year,
+                           last_year = last_year,
+                           type_docs = c('DRE'),
+                           type_format = type_format,
+                           clean_data = clean_data,
+                           use_memoise = use_memoise,
+                           cache_folder = cache_folder)
 
-    my_company <- df_itr$CNPJ_CIA[1]
-    year_in <- 2019
 
-    #build_quarterly_dre(my_company, year_in, df_itr, df_dfp)
+    df_dfp_itr <- dplyr::bind_rows(df_itr %>%
+                              dplyr::filter(
+                                stringr::str_detect(stringr::str_to_lower(source_file),
+                                                    'dre_ind')),
+                            df_dfp)
 
-    df_dfp_itr <- bind_rows(df_itr, df_dfp)
-
-    browser()
     tbl <- df_dfp_itr %>%
-      group_by(CNPJ_CIA, DENOM_CIA, lubridate::year(DT_REFER),
-               GRUPO_DFP, CD_CONTA, DS_CONTA, COLUNA_DF) %>%
-      summarise(Q1 = VL_CONTA[1],
-                Q2 = VL_CONTA[2] - VL_CONTA[1],
-                Q3 = VL_CONTA[3] - VL_CONTA[2],
-                Q4 = VL_CONTA[4] - VL_CONTA[3])
+      dplyr::filter(stringr::str_detect(GRUPO_DFP, 'Individual')) %>%
+      dplyr::group_by(CNPJ_CIA, CD_CVM, DENOM_CIA,
+                      my_year = lubridate::year(DT_REFER),
+                      GRUPO_DFP, CD_CONTA, DS_CONTA, COLUNA_DF ) %>%
+      dplyr::summarise(Q1 = VL_CONTA[1],
+                       Q2 = VL_CONTA[2] - VL_CONTA[1],
+                       Q3 = VL_CONTA[3] - VL_CONTA[2],
+                       Q4 = VL_CONTA[4] - VL_CONTA[3],
+                       .groups = "drop_last" ) %>%
+      dplyr::ungroup()
 
 
-    tidyr::pivot_longer(data = tbl, cols = c('Q1', 'Q2', 'Q3', 'Q4'),
-                        names_to = c('quarter'), values_to = 'VL_CONTA')
+    dre_longer <- tidyr::pivot_longer(data = tbl, cols = c('Q1', 'Q2', 'Q3', 'Q4'),
+                                      names_to = c('quarter'), values_to = 'VL_CONTA')
 
-    months(df_dfp$DT_FIM_EXERC)
+    name_group <- dre_longer$GRUPO_DFP[1]
+
+    # figure out quarter dates
+    df_extra <- df_dfp_itr %>%
+      #dplyr::filter(stringr::str_detect(GRUPO_DFP, 'Individual')) %>%
+      dplyr::mutate(quarter = quarters(DT_REFER, abbreviate = FALSE),
+                    my_year = lubridate::year(DT_REFER)) %>%
+      dplyr::select(CNPJ_CIA,
+                    DT_REFER, DT_FIM_EXERC,
+                    MOEDA, ESCALA_MOEDA, ORDEM_EXERC,
+                    quarter, my_year) %>%
+      unique() %>%
+      dplyr::arrange(CNPJ_CIA, DT_REFER)
+
+    # replace DRE Data, but keeping same columns
+    df_itr <- df_itr %>%
+      dplyr::filter(GRUPO_DFP != name_group) %>%
+      dplyr::bind_rows(dre_longer %>%
+                         dplyr::left_join(df_extra ) %>%
+                         dplyr::select(-my_year) )
+
 
   }
 
-  return(df_itr)
+  # split into list
+  l_out <- split(df_itr, f = df_itr$GRUPO_DFP)
+
+  return(l_out)
 
 }

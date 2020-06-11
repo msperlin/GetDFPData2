@@ -20,7 +20,7 @@
 #'                    memoise for caching results (execution speed increases significantly)
 #' @param cache_folder Path of cache folder to keep memoise and zip files
 #'
-#' @return A dataframe with selected data
+#' @return A list of tibbles, separated by column GRUPO_DFP
 #' @export
 #'
 #' @examples
@@ -84,6 +84,9 @@ get_dfp_data <- function(companies_cvm_codes = NULL,
 
   df_dfp <- dplyr::bind_rows(purrr::pmap(.l = l_args,
                         .f = get_dfp_docs) )
-  return(df_dfp)
+
+  l_out <- split(df_dfp, f = df_dfp$GRUPO_DFP)
+
+  return(l_out)
 
 }

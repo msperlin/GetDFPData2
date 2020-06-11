@@ -14,13 +14,24 @@
 #'
 read_itr_csv <- function(file_in, clean_data) {
 
+  #browser()
+
   message('\t\tReading ', basename(file_in), appendLF = TRUE)
-  df <- readr::read_csv2(file = file_in,
-                         col_types = readr::cols(CD_CVM = readr::col_number(),
-                                                 CD_CONTA = readr::col_character(),
-                                                 VL_CONTA = readr::col_number()),
-                         locale = readr::locale(decimal_mark = ',', encoding = 'Latin1'),
-                         progress = FALSE)
+  suppressMessages({
+
+    VL_CONTA <- NULL
+
+    df <- readr::read_csv2(file = file_in,
+                           col_types = readr::cols(CD_CVM = readr::col_number(),
+                                                   CD_CONTA = readr::col_character(),
+                                                   VL_CONTA = readr::col_character()),
+                           locale = readr::locale(#decimal_mark = '.',
+                             encoding = 'Latin1'),
+                           progress = FALSE) %>%
+      dplyr::mutate(VL_CONTA = readr::parse_number(VL_CONTA)) %>%
+      dplyr::ungroup()
+
+  })
 
   if (nrow(df) == 0) {
     warning('Found 0 row table in file ', basename(file_in))

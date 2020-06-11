@@ -40,7 +40,7 @@ memoise for caching results (execution speed increases significantly)}
 \item{cache_folder}{Path of cache folder to keep memoise and zip files}
 }
 \value{
-A dataframe with selected data
+A list of tibbles, separated by column GRUPO_DFP
 }
 \description{
 The DFP (demonstrativos financeiros padronizados) is the annual reporting system of companies

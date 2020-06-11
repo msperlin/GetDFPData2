@@ -10,6 +10,7 @@ get_itr_data(
   last_year = lubridate::year(Sys.Date()),
   type_docs = c("BPA", "BPP", "DRE"),
   type_format = c("con", "ind"),
+  individual_dre_quarters = TRUE,
   clean_data = TRUE,
   use_memoise = FALSE,
   cache_folder = "gcvmd_cache"
@@ -32,6 +33,9 @@ get_itr_data(
 
 \item{type_format}{Type of format of document (con = consolidated, ind = individual). Default = c('con', 'ind')}
 
+\item{individual_dre_quarters}{Should the function calculate single quarters for companies: TRUE (default) or FALSE.
+This option only applies for the DRE. Be aware that the original data only includes accumulated quarters.}
+
 \item{clean_data}{Clean data or return raw data? See read_dfp|itr_csv() for details}
 
 \item{use_memoise}{Use memoise caching? If no (default), the function will read all .csv files. If yes, will use package
@@ -40,7 +44,7 @@ memoise for caching results (execution speed increases significantly)}
 \item{cache_folder}{Path of cache folder to keep memoise and zip files}
 }
 \value{
-Dataframe with ITR data
+A list of tibbles, separated by column GRUPO_DFP
 }
 \description{
 The ITR (informacoes trimestrais) is the quarterly reporting system of companies
