@@ -1,0 +1,31 @@
+Package: GetDFPData2
+Title: Reading Annual and Quarterly Financial Reports from CVM 
+Version: 0.5
+Date: 2020-04-20
+Authors@R: c(person("Marcelo", "Perlin", email = "marceloperlin@gmail.com", role = c("aut", "cre")),
+             person("Guilherme", "Kirch", email = "guilhermekirch@gmail.com", role = c("aut")))  
+Description: Reads annual and quarterly financial reports from companies traded at B3, the Brasilian exchange <http://www.bmfbovespa.com.br/en_us/products/listed-equities-and-derivatives/equities/listed-companies.htm>. All data is downloaded and imported from CVM's ftp site <http://dados.cvm.gov.br/dados/CIA_ABERTA/>.
+Depends:
+    R (>= 3.5.0)
+Imports: 
+    stringr,
+    xml2,
+    dplyr,
+    readr,
+    curl,
+    lubridate,
+    magrittr,
+    purrr,
+    memoise,
+    rvest
+ByteCompile: true
+License: GPL-2
+BugReports: https://github.com/msperlin/GetCVMData/issues
+URL: https://github.com/msperlin/GetCVMData/
+LazyData: true
+RoxygenNote: 7.1.0
+Suggests: knitr,
+    rmarkdown,
+    testthat,
+    ggplot2
+VignetteBuilder: knitr

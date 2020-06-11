@@ -1,0 +1,17 @@
+---
+title: "Using GetCVMData "
+author: "Marcelo Perlin"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using GetCVMData to obtain financial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+library(GetCVMData)
+
+# todo
+```
+

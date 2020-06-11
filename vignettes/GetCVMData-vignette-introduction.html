@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Marcelo Perlin" />
+
+<meta name="date" content="2020-04-20" />
+
+<title>Using GetDFPData to obtain annual financial reports from B3</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Using GetDFPData to obtain annual financial reports from B3</h1>
+<h4 class="author">Marcelo Perlin</h4>
+<h4 class="date">2020-04-20</h4>
+
+
+
+<p>Financial statements of companies traded at B3 (formerly Bovespa), the Brazilian stock exchange, are available in its <a href="http://www.bmfbovespa.com.br/">website</a>. Accessing the data for a single company is straightforward. In the website one can find a simple interface for accessing this dataset. An example is given <a href="https://www.rad.cvm.gov.br/ENETCONSULTA/frmGerenciaPaginaFRE.aspx?NumeroSequencialDocumento=67775&amp;CodigoTipoInstituicao=2">here</a>. However, gathering and organizing the data for a large scale research, with many companies and many dates, is painful. Financial reports must be downloaded or copied individually and later aggregated. Changes in the accounting format thoughout time can make this process slow, unreliable and irreproducible.</p>
+<p>Package <code>GetDFPData</code> provides a R interface to all annual financial statements available in the website and more. It not only downloads the data but also organizes it in a tabular format and allows the use of inflation indexes. Users can select companies and a time period to download all available data. Several information about current companies, such as sector and available quarters are also at reach. The main purpose of the package is to make it easy to access financial statements in large scale research, facilitating the reproducibility of corporate finance studies with B3 data.</p>
+<p>The positive aspects of <code>GetDFDData</code> are:</p>
+<ul>
+<li>Easy and simple R and web interface</li>
+<li>Changes in accounting format are internally handled by the software</li>
+<li>Access to corporate events in the FRE system such as dividend payments, changes in stock holder composition, changes in governance listings, board composition and compensation, debt composition, and a lot more!</li>
+<li>The output data is automatically organized using tidy data principles (long format)</li>
+<li>A cache system is employed for fast data acquisition</li>
+<li>Completely free and open source!</li>
+</ul>
+<p>A white paper about the package is available at <a href="https://ssrn.com/abstract=3128252">SSRN</a>.</p>
+<div id="installation" class="section level1">
+<h1>Installation</h1>
+<p>The package is (not yet) available in CRAN (release version) and in Github (development version). You can install any of those with the following code:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Release version in CRAN</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">install.packages</span>(<span class="st">&#39;GetDFPData&#39;</span>) </span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># Development version in Github</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&#39;msperlin/GetDFPData&#39;</span>)</span></code></pre></div>
+</div>
+<div id="shinny-interface" class="section level1">
+<h1>Shinny interface</h1>
+<p>The web interface of <code>GetDFPData</code> is available at <a href="http://www.msperlin.com/shiny/GetDFPData/">http://www.msperlin.com/shiny/GetDFPData/</a>.</p>
+</div>
+<div id="how-to-use-getdfpdata" class="section level1">
+<h1>How to use <code>GetDFPData</code></h1>
+<p>The starting point of <code>GetDFPData</code> is to find the official names of companies in B3. Function <code>gdfpd.search.company</code> serves this purpose. Given a string (text), it will search for a partial matches in companies names. As an example, let’s find the <em>official</em> name of Petrobras, one of the largest companies in Brazil:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(GetDFPData)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(tibble)</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">gdfpd.search.company</span>(<span class="st">&#39;petrobras&#39;</span>, <span class="dt">cache.folder =</span> <span class="kw">tempdir</span>())</span></code></pre></div>
+<p>Its official name in Bovespa records is <code>PETRÓLEO BRASILEIRO  S.A.  - PETROBRAS</code>. Data for quarterly and annual statements are available from 1998 to 2017. The situation of the company, active or canceled, is also given. This helps verifying the availability of data.</p>
+<p>The content of all available financial statements can be accessed with function <code>gdfpd.get.info.companies</code>. It will read and parse a .csv file from my <a href="https://github.com/msperlin/GetDFPData_auxiliary">github repository</a>. This will be periodically updated for new information. Let’s try it out:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>df.info &lt;-<span class="st"> </span><span class="kw">gdfpd.get.info.companies</span>(<span class="dt">type.data =</span> <span class="st">&#39;companies&#39;</span>, <span class="dt">cache.folder =</span> <span class="kw">tempdir</span>())</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">glimpse</span>(df.info)</span></code></pre></div>
+<p>This file includes several information that are gathered from Bovespa: names of companies, official numeric ids, listing segment, sectors, traded tickers and, most importantly, the available dates. The resulting dataframe can be used to filter and gather information for large scale research such as downloading financial data for a specific sector.</p>
+<div id="downloading-financial-information-for-one-company" class="section level2">
+<h2>Downloading financial information for ONE company</h2>
+<p>All you need to download financial data with <code>GetDFPData</code> are the official names of companies, which can be found with <code>gdfpd.search.company</code>, the desired starting and ending dates and the type of financial information (individual or consolidated). Let’s try it for PETROBRAS:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>name.companies &lt;-<span class="st"> &#39;PETRÓLEO BRASILEIRO  S.A.  - PETROBRAS&#39;</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>first.date &lt;-<span class="st"> &#39;2004-01-01&#39;</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>last.date  &lt;-<span class="st"> &#39;2006-01-01&#39;</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a>df.reports &lt;-<span class="st"> </span><span class="kw">gdfpd.GetDFPData</span>(<span class="dt">name.companies =</span> name.companies, </span>
+<span id="cb4-6"><a href="#cb4-6"></a>                               <span class="dt">first.date =</span> first.date,</span>
+<span id="cb4-7"><a href="#cb4-7"></a>                               <span class="dt">last.date =</span> last.date,</span>
+<span id="cb4-8"><a href="#cb4-8"></a>                               <span class="dt">cache.folder =</span> <span class="kw">tempdir</span>())</span></code></pre></div>
+<p>The resulting object is a <code>tibble</code>, a data.frame type of object that allows for list columns. Let’s have a look in its content:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">glimpse</span>(df.reports)</span></code></pre></div>
+<p>Object <code>df.reports</code> only has one row since we only asked for data of one company. The number of rows increases with the number of companies, as we will soon learn with the next example. All financial statements for the different years are available within <code>df.reports</code>. For example, the assets statements for all desired years of PETROBRAS are:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>df.income.long &lt;-<span class="st"> </span>df.reports<span class="op">$</span>fr.income[[<span class="dv">1</span>]]</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="kw">glimpse</span>(df.income.long)</span></code></pre></div>
+<p>The resulting dataframe is in the long format, ready for processing. In the long format, financial statements of different years are stacked. In the wide format, we have the year as columns of the table.</p>
+<p>If you want the wide format, which is the most common way that financial reports are presented, you can use function <code>gdfpd.convert.to.wide</code>. See an example next:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>df.income.wide &lt;-<span class="st"> </span><span class="kw">gdfpd.convert.to.wide</span>(df.income.long)</span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a>knitr<span class="op">::</span><span class="kw">kable</span>(df.income.wide )</span></code></pre></div>
+</div>
+<div id="exporting-financial-data" class="section level2">
+<h2>Exporting financial data</h2>
+<p>The package includes function <code>gdfpd.export.DFP.data</code> for exporting the financial data to an Excel or zipped csv files. See next:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>my.basename &lt;-<span class="st"> &#39;MyExcelData&#39;</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>my.format &lt;-<span class="st"> &#39;csv&#39;</span> <span class="co"># only supported so far</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">gdfpd.export.DFP.data</span>(<span class="dt">df.reports =</span> df.reports, </span>
+<span id="cb8-4"><a href="#cb8-4"></a>                      <span class="dt">base.file.name =</span> my.basename,</span>
+<span id="cb8-5"><a href="#cb8-5"></a>                      <span class="dt">type.export =</span> my.format)</span></code></pre></div>
+<p>The resulting Excel file contains all data available in <code>df.reports</code>.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
