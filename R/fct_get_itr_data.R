@@ -97,22 +97,21 @@ get_itr_data <- function(companies_cvm_codes = NULL,
     my_year <- quarter <- source_file <- NULL
 
     # get annual data
-
     df_dfp <- get_dfp_data(companies_cvm_codes = companies_cvm_codes,
                            first_year = first_year,
                            last_year = last_year,
                            type_docs = c('DRE'),
-                           type_format = type_format,
+                           type_format = 'ind',
                            clean_data = clean_data,
                            use_memoise = use_memoise,
-                           cache_folder = cache_folder)
+                           cache_folder = cache_folder)[[1]]
 
 
     df_dfp_itr <- dplyr::bind_rows(df_itr %>%
                               dplyr::filter(
                                 stringr::str_detect(stringr::str_to_lower(source_file),
                                                     'dre_ind')),
-                            df_dfp)
+                              df_dfp)
 
     tbl <- df_dfp_itr %>%
       dplyr::filter(stringr::str_detect(GRUPO_DFP, 'Individual')) %>%
