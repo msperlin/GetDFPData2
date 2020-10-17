@@ -64,7 +64,6 @@ download_read_itr_zip_file <- function(url_in,
   idx <- (type_files_doc %in% type_docs)&(type_files_format %in% type_format)
   unzipped_files <- unzipped_files[idx]
 
-
   if (length(unzipped_files) == 0) {
     stop('Cant find any files for selected type_docs')
   }

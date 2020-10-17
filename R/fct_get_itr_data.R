@@ -24,7 +24,7 @@ get_itr_data <- function(companies_cvm_codes = NULL,
                          individual_dre_quarters = TRUE,
                          clean_data = TRUE,
                          use_memoise = FALSE,
-                         cache_folder = 'gcvmd_cache') {
+                         cache_folder = 'gdfpd2_cache') {
 
   # check args
   available_docs <- c('BPA',
@@ -58,10 +58,9 @@ get_itr_data <- function(companies_cvm_codes = NULL,
 
   df_ftp_itr_full <- get_contents_ftp('http://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/ITR/DADOS/')
 
-  # remove 2010 (no data in zip file)
-  idx <- df_ftp_itr_full$year_files > 2010
-  df_ftp_itr_full <- df_ftp_itr_full[idx, ]
-
+  # remove 2010 (no data in zip file) - NO MORE NEEDED 2020-10-17
+  # idx <- df_ftp_itr_full$year_files > 2010
+  # df_ftp_itr_full <- df_ftp_itr_full[idx, ]
 
   # filter dates
   idx <- (df_ftp_itr_full$year_files >= first_year) & df_ftp_itr_full$year_files <= last_year

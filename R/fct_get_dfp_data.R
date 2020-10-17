@@ -34,8 +34,8 @@ get_dfp_data <- function(companies_cvm_codes = NULL,
                          type_format = c('con', 'ind'),
                          clean_data = TRUE,
                          use_memoise = FALSE,
-                         cache_folder = 'gcvmd_cache') {
-
+                         cache_folder = 'gdfpd2_cache') {
+  
   # check args
   available_docs <- c('BPA',
                       'BPP',
@@ -44,49 +44,60 @@ get_dfp_data <- function(companies_cvm_codes = NULL,
                       'DMPL',
                       'DRE',
                       'DVA')
-
+  
   if (any(type_docs == '*')) {
     type_docs  <- available_docs
   }
-
+  
   idx <- type_docs %in% available_docs
   if (any(!idx)) {
     stop(paste0('Cant find type type_docs: ', paste0(type_docs[!idx], collapse = ', ')),
          '\n\n',
          'Available type_docs are: ', paste0(available_docs, collapse = ', '))
   }
-
+  
   available_formats <- c("ind",
                          "con" )
-
+  
   idx <- type_format %in% available_formats
   if (any(!idx)) {
     stop(paste0('Cant find type type_format: ', paste0(type_format[!idx], collapse = ', ')),
          '\n\n',
          'Available type_format are: ', paste0(available_formats, collapse = ', '))
   }
-
+  
   if ((!is.null(companies_cvm_codes))&(!is.numeric(companies_cvm_codes))) {
     stop('Input companies_cvm_codes should be numeric (e.g. ')
   }
+  
+  
+  df_ftp_dfp_full <- get_contents_ftp('http://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/')
 
-  df_cvm <- get_info_companies(cache_folder)
-
-  # start download of files
-  l_args <- list(type_doc = type_docs,
-                 companies_cvm_codes = rep(list(companies_cvm_codes), length(type_docs)),
-                 type_format = rep(list(type_format), length(type_docs)),
-                 first_year = first_year,
-                 last_year = last_year,
-                 cache_folder = cache_folder,
-                 use_memoise = use_memoise,
-                 clean_data = clean_data)
-
-  df_dfp <- dplyr::bind_rows(purrr::pmap(.l = l_args,
-                        .f = get_dfp_docs) )
-
+  # filter dates
+  idx <- (df_ftp_dfp_full$year_files >= first_year) & df_ftp_dfp_full$year_files <= last_year
+  df_ftp_dfp <- df_ftp_dfp_full[idx, ]
+  
+  if (nrow(df_ftp_dfp) == 0 ) {
+    stop('Cant find data for requested years in ftp. \n\nAvailable years: ',
+         paste0(df_ftp_dfp$year_files, collapse = ', '))
+  }
+  
+  if (use_memoise) {
+    # setup memoise
+    mem_cache <- memoise::cache_filesystem(path = file.path(cache_folder, 'mem_cache'))
+    download_read_dfp_zip_file <- memoise::memoise(download_read_dfp_zip_file,
+                                                   cache = mem_cache)
+  }
+  
+  df_dfp <- dplyr::bind_rows(purrr::map(df_ftp_dfp$full_links,
+                                        download_read_dfp_zip_file,
+                                        clean_data = clean_data,
+                                        companies_cvm_codes = companies_cvm_codes,
+                                        type_docs = type_docs,
+                                        type_format = type_format))
+  
   l_out <- split(df_dfp, f = df_dfp$GRUPO_DFP)
-
+  
   return(l_out)
-
+  
 }

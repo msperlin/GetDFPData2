@@ -18,6 +18,7 @@
 download_read_dfp_zip_file <- function(url_in,
                                        companies_cvm_codes,
                                        type_format,
+                                       type_docs,
                                        cache_folder = 'gcvmd_cache', clean_data) {
 
   # create folder
@@ -41,18 +42,27 @@ download_read_dfp_zip_file <- function(url_in,
 
   unzipped_files <- list.files(unzip_dir, full.names = TRUE)
 
+  # remove metadata file
+  unzipped_files <- unzipped_files[2:length(unzipped_files)]
+  
+  # find types of docs and formats
+  temp_str <-stringr::str_match_all(
+    stringr::str_to_lower(basename(unzipped_files)),
+    'aberta_(.*)_(ind|con)_\\d\\d\\d\\d')
+  
+  type_files_doc <- stringr::str_to_upper(as.character(purrr::map(temp_str, 2)))
+  type_files_format <- as.character(purrr::map(temp_str, 3))
+
   # filter by type and format
-  type_files_format <- as.character(
-    purrr::map(stringr::str_match_all(basename(unzipped_files), 'aberta_(.*)_\\d\\d\\d\\d'),
-               2)
-  )
-
-  idx <- (type_files_format %in% type_format)
+  idx <- (type_files_doc %in% type_docs)&(type_files_format %in% type_format)
   unzipped_files <- unzipped_files[idx]
-
+  
+  if (length(unzipped_files) == 0) {
+    stop('Cant find any files for selected type_docs')
+  }
+  
   #message('\t\t\t\tfound ', length(unzipped_files), ' files')
   #message('\t\t\treading files', appendLF = FALSE)
-
   df_out <- dplyr::bind_rows(purrr::map(unzipped_files,
                                         read_dfp_csv, clean_data = clean_data))
 

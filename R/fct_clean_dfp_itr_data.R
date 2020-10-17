@@ -14,7 +14,7 @@
 #'
 clean_dfp_itr_data <- function(df_in, file_in) {
 
-  message('\t\t\tCleaning table' )
+  message(' | Cleaning table' )
 
   # filter penultimo cases
   possible_cases <- sort(unique(df_in$ORDEM_EXERC))

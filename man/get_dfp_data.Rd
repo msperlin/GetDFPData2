@@ -12,7 +12,7 @@ get_dfp_data(
   type_format = c("con", "ind"),
   clean_data = TRUE,
   use_memoise = FALSE,
-  cache_folder = "gcvmd_cache"
+  cache_folder = "gdfpd2_cache"
 )
 }
 \arguments{

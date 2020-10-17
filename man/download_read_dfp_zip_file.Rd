@@ -8,6 +8,7 @@ download_read_dfp_zip_file(
   url_in,
   companies_cvm_codes,
   type_format,
+  type_docs,
   cache_folder = "gcvmd_cache",
   clean_data
 )
@@ -18,6 +19,14 @@ download_read_dfp_zip_file(
 \item{companies_cvm_codes}{Numeric CVM code  of companies. IF set to NULL (default), will return data for all available companies.}
 
 \item{type_format}{Type of format of document (con = consolidated, ind = individual). Default = c('con', 'ind')}
+
+\item{type_docs}{Type of financial documents. E.g. c('DRE', 'BPA'). Definitions: '*' = fetch all docs,  'BPA' = Assets (ativos),
+'BPP' = Liabilities (passivo),
+'DRE' = income statement (demonstrativo de resultados),
+'DFC_MD' = cash flow by direct method (fluxo de caixa pelo metodo direto),
+'DFC_MI' = cash flow by indirect method (fluxo de caixa pelo metodo indireto),
+'DMPL' = statement of changes in equity (mutacoes do patrimonio liquido),
+'DVA' = value added report (desmonstrativo de valor agregado)}
 
 \item{cache_folder}{Path of cache folder to keep memoise and zip files}
 

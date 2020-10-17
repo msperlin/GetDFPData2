@@ -14,9 +14,7 @@
 #'
 read_itr_csv <- function(file_in, clean_data) {
 
-  #browser()
-
-  message('\t\tReading ', basename(file_in), appendLF = TRUE)
+  message('\t\tReading ', basename(file_in), appendLF = FALSE)
   suppressMessages({
 
     VL_CONTA <- NULL
