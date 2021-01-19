@@ -14,7 +14,7 @@
 #' df_info <- get_info_companies()
 #' str(df_info)
 #' }
-get_info_companies <- function(cache_folder = 'gcvmd_cache') {
+get_info_companies <- function(cache_folder = 'gdfpd2_cache') {
 
   # create folder
   if (!dir.exists(cache_folder)) dir.create(cache_folder)
