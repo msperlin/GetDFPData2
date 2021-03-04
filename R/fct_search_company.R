@@ -34,6 +34,6 @@ search_company <- function(char_to_search, cache_folder = 'gcvmd_cache') {
                    ' | CD_CVM = ',temp_df$CD_CVM[i_company]))
   }
 
-  return(temp_df)
+  return(invisible(temp_df[ , c("CD_CVM", "DENOM_SOCIAL", "SIT_REG" )]))
 
 }
