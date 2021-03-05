@@ -32,7 +32,7 @@ download_read_dfp_zip_file <- function(url_in,
     shiny::incProgress(amount = 1,
                        message = paste0('Fetching Data for Year ', year),
                        detail = paste0('\nThis might take a while.. grab some ',
-                                       my_drink ))
+                                       my_drink, '.' ))
 
   }
   # create folder

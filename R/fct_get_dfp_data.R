@@ -96,7 +96,7 @@ get_dfp_data <- function(companies_cvm_codes = NULL,
 
       shiny::incProgress(amount = 0,
                          message = paste0('Done!'),
-                         detail = paste0('\nCongratz'))
+                         detail = paste0('\nCongrats :)'))
 
     }
     #browser()
