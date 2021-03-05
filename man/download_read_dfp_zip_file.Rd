@@ -9,7 +9,7 @@ download_read_dfp_zip_file(
   companies_cvm_codes,
   type_format,
   type_docs,
-  cache_folder = "gcvmd_cache",
+  cache_folder,
   clean_data
 )
 }

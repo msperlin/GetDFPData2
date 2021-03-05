@@ -34,7 +34,8 @@ get_dfp_data <- function(companies_cvm_codes = NULL,
                          type_format = c('con', 'ind'),
                          clean_data = TRUE,
                          use_memoise = FALSE,
-                         cache_folder = 'gdfpd2_cache') {
+                         cache_folder = 'gdfpd2_cache',
+                         do_shiny_progress = FALSE) {
 
   # check args
   available_docs <- c('BPA',
@@ -89,13 +90,35 @@ get_dfp_data <- function(companies_cvm_codes = NULL,
                                                    cache = mem_cache)
   }
 
+  if (do_shiny_progress) {
+
+    if (do_shiny_progress) {
+
+      shiny::incProgress(amount = 0,
+                         message = paste0('Done!'),
+                         detail = paste0('\nCongratz'))
+
+    }
+    #browser()
+    # shiny::Progress$new(
+    #   session = shiny_session, # shiny session
+    #   min = 0,
+    #   max = dplyr::n_distinct(df_ftp_dfp$year_files),
+    #   style = shiny::getShinyOption("progress.style",
+    #                          default = "notification")
+    # )
+
+
+  }
+
   df_dfp <- dplyr::bind_rows(purrr::map(df_ftp_dfp$full_links,
                                         download_read_dfp_zip_file,
                                         cache_folder = cache_folder,
                                         clean_data = clean_data,
                                         companies_cvm_codes = companies_cvm_codes,
                                         type_docs = type_docs,
-                                        type_format = type_format))
+                                        type_format = type_format,
+                                        do_shiny_progress = do_shiny_progress))
 
   l_out <- split(df_dfp, f = df_dfp$GRUPO_DFP)
 

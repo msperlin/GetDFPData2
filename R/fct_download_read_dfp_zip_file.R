@@ -4,7 +4,6 @@
 #' @inheritParams get_dfp_data
 #'
 #' @return A dataframe with dfp data
-#' @export
 #'
 #' @examples
 #'
@@ -19,8 +18,23 @@ download_read_dfp_zip_file <- function(url_in,
                                        companies_cvm_codes,
                                        type_format,
                                        type_docs,
-                                       cache_folder = 'gdfpd2_cache', clean_data) {
+                                       cache_folder,
+                                       clean_data,
+                                       do_shiny_progress) {
 
+  # shiny progress
+  # find year
+  year <- stringr::str_extract(basename(url_in), '(\\d\\d\\d\\d)')
+
+  if (do_shiny_progress) {
+    my_drink <- select_responsible_beverage()
+
+    shiny::incProgress(amount = 1,
+                       message = paste0('Fetching Data for Year ', year),
+                       detail = paste0('\nThis might take a while.. grab some ',
+                                       my_drink ))
+
+  }
   # create folder
   dir_zip <- file.path(cache_folder, 'DFP_zip_files')
   if (!dir.exists(dir_zip)) dir.create(dir_zip, recursive = TRUE)
