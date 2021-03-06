@@ -12,7 +12,8 @@ get_dfp_data(
   type_format = c("con", "ind"),
   clean_data = TRUE,
   use_memoise = FALSE,
-  cache_folder = "gdfpd2_cache"
+  cache_folder = "gdfpd2_cache",
+  do_shiny_progress = FALSE
 )
 }
 \arguments{

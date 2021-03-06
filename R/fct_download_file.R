@@ -24,8 +24,20 @@ my_download_file <- function(dl_link, dest_file, max_dl_tries = 10, be_quiet = T
 
   #browser()
   if (file.exists(dest_file)) {
-    message('\tFile already exists', appendLF = TRUE)
-    return(TRUE)
+    message('\tFile already exists', appendLF = FALSE)
+
+    current_size <- find_file_size(dest_file)
+    dl_size <- find_dl_size(dl_link)
+
+    if (dl_size == current_size) {
+      message(' -- same size as current, skipping download', appendLF = TRUE)
+      return(TRUE)
+    } else {
+      message(' -- but differente size, downloading it..', appendLF = TRUE)
+    }
+
+  } else {
+    message('\tFile not found, downloading it..', appendLF = TRUE)
   }
 
   for (i_try in seq(max_dl_tries)) {
@@ -76,3 +88,37 @@ my_download_file <- function(dl_link, dest_file, max_dl_tries = 10, be_quiet = T
 
 
 }
+
+#' Find downloas size
+#'
+#' @param url_in An internet address
+#'
+#' @return size of download file
+#'
+#' @examples
+#' find_dl_size('https://www.msperlin.com/blog/files/adfer-files/TOC-adfeR-ed3.pdf')
+#'
+find_dl_size <- function(url_in) {
+
+  res <- RCurl::url.exists(url_in, .header=TRUE)
+  size_out <- as.numeric(res['Content-Length'])
+
+  return(size_out)
+}
+
+
+#' Find file size
+#'
+#' @param path path to file
+#'
+#' @return size
+#'
+#' @examples
+find_file_size <- function(path) {
+  info <- file.info(path)
+  size <- info$size
+  return(size)
+}
+
+
+

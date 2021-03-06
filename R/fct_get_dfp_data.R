@@ -85,7 +85,10 @@ get_dfp_data <- function(companies_cvm_codes = NULL,
 
   if (use_memoise) {
     # setup memoise
-    mem_cache <- memoise::cache_filesystem(path = file.path(cache_folder, 'mem_cache'))
+    mem_folder <- file.path(cache_folder, 'mem_cache')
+    if (!dir.exists(mem_folder)) dir.create(mem_folder)
+
+    mem_cache <- memoise::cache_filesystem(path = mem_folder)
     download_read_dfp_zip_file <- memoise::memoise(download_read_dfp_zip_file,
                                                    cache = mem_cache)
   }

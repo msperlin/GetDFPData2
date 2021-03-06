@@ -10,7 +10,8 @@ download_read_dfp_zip_file(
   type_format,
   type_docs,
   cache_folder,
-  clean_data
+  clean_data,
+  do_shiny_progress
 )
 }
 \arguments{
