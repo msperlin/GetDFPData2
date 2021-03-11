@@ -97,7 +97,7 @@ choices" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/GetDFPData2-vignette-introduction.html">Using GetDFPData2</a>
+      <a href="../articles/GetDFPData2-vignette-introduction.html">Using GetDFPData2 to import financial documents from B3</a>
     </li>
   </ul>
 </li>
@@ -190,6 +190,10 @@ memoise for caching results (execution speed increases significantly)</p></td>
       <th>cache_folder</th>
       <td><p>Path of cache folder to keep memoise and zip files</p></td>
     </tr>
+    <tr>
+      <th>do_shiny_progress</th>
+      <td><p>Whether to use shiny progress indicator (default = FALSE)</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -198,7 +202,7 @@ memoise for caching results (execution speed increases significantly)</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>df_dfp</span> <span class='op'>&lt;-</span> <span class='fu'>get_dfp_data</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>df_dfp</span> <span class='op'>&lt;-</span> <span class='fu'>get_dfp_data</span><span class='op'>(</span>companies_cvm_codes <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
