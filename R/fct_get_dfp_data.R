@@ -19,13 +19,15 @@
 #' @param use_memoise Use memoise caching? If no (default), the function will read all .csv files. If yes, will use package
 #'                    memoise for caching results (execution speed increases significantly)
 #' @param cache_folder Path of cache folder to keep memoise and zip files
+#' @param do_shiny_progress Whether to use shiny progress indicator (default = FALSE)
 #'
 #' @return A list of tibbles, separated by column GRUPO_DFP
+#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' df_dfp <- get_dfp_data()
+#' df_dfp <- get_dfp_data(companies_cvm_codes = NULL)
 #' }
 get_dfp_data <- function(companies_cvm_codes = NULL,
                          first_year = 2010,

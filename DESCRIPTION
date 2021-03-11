@@ -18,7 +18,10 @@ Imports:
     purrr,
     memoise,
     rvest,
-    tidyr
+    tidyr,
+    RCurl,
+    shiny,
+    writexl
 ByteCompile: true
 License: GPL-2
 BugReports: https://github.com/msperlin/GetDFPData2/issues

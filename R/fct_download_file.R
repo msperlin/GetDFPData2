@@ -8,7 +8,6 @@
 #' @param be_quiet Be quiet?
 #'
 #' @return Status (TRUE = OK)
-#' @export
 #' @examples
 #'
 #' my_url <- paste0('http://www.rad.cvm.gov.br/enetconsulta/',
@@ -89,15 +88,6 @@ my_download_file <- function(dl_link, dest_file, max_dl_tries = 10, be_quiet = T
 
 }
 
-#' Find downloas size
-#'
-#' @param url_in An internet address
-#'
-#' @return size of download file
-#'
-#' @examples
-#' find_dl_size('https://www.msperlin.com/blog/files/adfer-files/TOC-adfeR-ed3.pdf')
-#'
 find_dl_size <- function(url_in) {
 
   res <- RCurl::url.exists(url_in, .header=TRUE)
@@ -107,13 +97,6 @@ find_dl_size <- function(url_in) {
 }
 
 
-#' Find file size
-#'
-#' @param path path to file
-#'
-#' @return size
-#'
-#' @examples
 find_file_size <- function(path) {
   info <- file.info(path)
   size <- info$size

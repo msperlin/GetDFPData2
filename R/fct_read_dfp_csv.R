@@ -4,7 +4,6 @@
 #' @inheritParams get_dfp_data
 #'
 #' @return A dataframe
-#' @export
 #'
 #' @examples
 #'

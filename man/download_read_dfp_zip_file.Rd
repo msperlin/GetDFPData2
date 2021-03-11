@@ -32,6 +32,8 @@ download_read_dfp_zip_file(
 \item{cache_folder}{Path of cache folder to keep memoise and zip files}
 
 \item{clean_data}{Clean data or return raw data? See read_dfp|itr_csv() for details}
+
+\item{do_shiny_progress}{Whether to use shiny progress indicator (default = FALSE)}
 }
 \value{
 A dataframe with dfp data

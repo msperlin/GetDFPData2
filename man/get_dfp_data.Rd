@@ -39,6 +39,8 @@ get_dfp_data(
 memoise for caching results (execution speed increases significantly)}
 
 \item{cache_folder}{Path of cache folder to keep memoise and zip files}
+
+\item{do_shiny_progress}{Whether to use shiny progress indicator (default = FALSE)}
 }
 \value{
 A list of tibbles, separated by column GRUPO_DFP
@@ -50,6 +52,6 @@ choices
 }
 \examples{
 \dontrun{
-df_dfp <- get_dfp_data()
+df_dfp <- get_dfp_data(companies_cvm_codes = NULL)
 }
 }

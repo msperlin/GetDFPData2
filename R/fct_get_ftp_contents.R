@@ -3,7 +3,6 @@
 #' @param ftp_url The url of ftp
 #'
 #' @return A dataframe with links and files
-#' @export
 #'
 #' @examples
 #' \dontrun{ # keep cran fast

@@ -1,5 +1,5 @@
 ---
-title: "Using GetDFPData2"
+title: "Using GetDFPData2 to import financial documents from B3"
 author: "Marcelo Perlin"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

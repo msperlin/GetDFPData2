@@ -4,7 +4,6 @@
 #' @inheritParams get_itr_data
 #'
 #' @return A dataframe
-#' @export
 #'
 #' @examples
 #'

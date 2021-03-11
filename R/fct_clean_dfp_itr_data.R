@@ -4,7 +4,6 @@
 #' @param df_in A itr/dpf dataframe
 #'
 #' @return A Clean dataframe
-#' @export
 #'
 #' @examples
 #'
