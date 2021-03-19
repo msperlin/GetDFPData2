@@ -7,7 +7,7 @@
 export_xlsx(l_dfp, f_xlsx = "GetDFPData-XLSX.xlsx")
 }
 \arguments{
-\item{l_dfp}{A list from get_dfp_data}
+\item{l_dfp}{A list from get_dfp_data or get_itr_data}
 
 \item{f_xlsx}{Path to xlsx file}
 }

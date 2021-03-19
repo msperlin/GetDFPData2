@@ -9,7 +9,7 @@ download_read_itr_zip_file(
   companies_cvm_codes,
   type_docs,
   type_format,
-  cache_folder = "gcvmd_cache",
+  cache_folder,
   clean_data
 )
 }

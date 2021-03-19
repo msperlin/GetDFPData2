@@ -47,6 +47,9 @@ memoise for caching results (execution speed increases significantly)}
 A list of tibbles, separated by column GRUPO_DFP
 }
 \description{
+**IN DEVELOPMENT and NOT EXPORTED (dont use it)**. Results dont seem right..
+}
+\details{
 The ITR (informacoes trimestrais) is the quarterly reporting system of companies
 traded at B3. This function will access the CVM ftp and parse all available files according to user
 choices

@@ -96,7 +96,6 @@ find_dl_size <- function(url_in) {
   return(size_out)
 }
 
-
 find_file_size <- function(path) {
   info <- file.info(path)
   size <- info$size

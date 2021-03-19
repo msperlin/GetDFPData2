@@ -11,7 +11,7 @@
 #' \dontrun{ # dontrun: keep cran check fast
 #' df <- search_company('petrobras')
 #' }
-search_company <- function(char_to_search, cache_folder = 'gcvmd_cache') {
+search_company <- function(char_to_search, cache_folder = 'gdfpd2_cache') {
 
   df_cvm <- get_info_companies(cache_folder)
 

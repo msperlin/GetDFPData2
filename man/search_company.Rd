@@ -4,7 +4,7 @@
 \alias{search_company}
 \title{Helps users search for a company}
 \usage{
-search_company(char_to_search, cache_folder = "gcvmd_cache")
+search_company(char_to_search, cache_folder = "gdfpd2_cache")
 }
 \arguments{
 \item{char_to_search}{Character for partial matching}

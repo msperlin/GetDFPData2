@@ -4,8 +4,8 @@
 #'
 #' @name %>%
 #' @rdname pipe
-#' @keywords internal
 #' @export
+#' @keywords internal
 #' @importFrom magrittr %>%
 #' @usage lhs \%>\% rhs
 NULL

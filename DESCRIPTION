@@ -1,10 +1,12 @@
 Package: GetDFPData2
 Title: Reading Annual and Quarterly Financial Reports from B3
 Version: 0.5
-Date: 2020-06-11
+Date: 2021-03-19
 Authors@R: c(person("Marcelo", "Perlin", email = "marceloperlin@gmail.com", role = c("aut", "cre")),
              person("Guilherme", "Kirch", email = "guilhermekirch@gmail.com", role = c("aut")))  
-Description: Reads annual and quarterly financial reports from companies traded at B3, the Brasilian exchange <http://www.bmfbovespa.com.br/en_us/products/listed-equities-and-derivatives/equities/listed-companies.htm>. All data is downloaded and imported from CVM's ftp site <http://dados.cvm.gov.br/dados/CIA_ABERTA/>.
+Description: Reads annual and quarterly financial reports from companies traded at B3, the Brazilian exchange 
+            <http://www.b3.com.br/>. 
+            All data is downloaded and imported from CVM's public ftp site <http://dados.cvm.gov.br/dados/CIA_ABERTA/>.
 Depends:
     R (>= 3.5.0)
 Imports: 
