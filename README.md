@@ -1,47 +1,50 @@
-# Package GetDFPData2
 
-Improved and backwards incompatible version of package GetDFPData.
+`GetDFPData2` is the second and backwards incompatible version of `GetDPFData`,  a R package for downloading annual financial reports from B3, the Brazilian financial exchange. Unlike its first iteration, `GetDFPData2` imports data using a  database of csv files from [CVM](http://dados.cvm.gov.br/dados/CIA_ABERTA/), which makes it execute much faster than its predecessor. However, the output is slightly different.
 
-In development, soon to be released.
+A shiny app -- web interface -- is also available at  [https://www.msperlin.com/shiny/GetDFPData2/](https://www.msperlin.com/shiny/GetDFPData2/).
 
-## Installation
 
+# Installation
+
+```r
+# only in github, soon in CRAN
+devtools::install_github('msperlin/GetDFPData2')
 ```
-if (!require(devtools)) install.packages('devtools')
-if (!require(GetDFPData2)) devtools::install_github('msperlin/GetDFPData2') # not in CRAN yet
-```
 
-## Example of usage
+# Examples of Usage
 
-```
+## Information about available companies
+
+```r
 library(GetDFPData2)
-library(tidyverse)
 
-# fetch information about companies
-df_info <- get_info_companies()
-
-
-# search for companies
-df_search <- search_company('odontoprev')
-
-# DFP annual data
-id_cvm <- df_search$CD_CVM[1] # use NULL for all companies
-l_dfp <- get_dfp_data(companies_cvm_codes = id_cvm, 
-                       first_year = 2018,
-                       last_year = 2019,
-                       type_docs = c('DRE', 'BPA', 'BPP'), # income, assets, liabilities
-                       type_format = 'con' # consolidated statements
-                       )
-
-glimpse(l_dfp)
-
-# ITR quarterly data
-l_itr <- get_itr_data(companies_cvm_codes = id_cvm, 
-                       first_year = 2018,
-                       last_year = 2020,
-                       type_docs = 'DRE', # income statement
-                       type_format = 'con' # consolidated statements
-                       )
-
-glimpse(l_itr)
+# information about companies
+df_info <- get_info_companies(tempdir())
+print(df_info )
 ```
+
+## Searching for companies
+
+```{r}
+search_company('grendene', cache_folder = tempdir())
+```
+
+## Downloading Financial Reports
+
+```r
+library(GetDFPData2)
+
+# downloading DFP data
+l_dfp <- get_dfp_data(companies_cvm_codes = 19615, 
+                      use_memoise = FALSE,
+                      clean_data = TRUE,
+                      cache_folder = tempdir(), # use local folder in live code
+                      type_docs = c('DRE'), 
+                      type_format = 'con',
+                      first_year = 2019, 
+                      last_year = 2020)
+
+str(l_dfp)
+
+```
+
