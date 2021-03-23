@@ -1,19 +1,3 @@
-#' Downloads and reads DFP datasets
-#'
-#' @param url_in Url of file to download and read
-#' @inheritParams get_dfp_data
-#'
-#' @return A dataframe with dfp data
-#'
-#' @examples
-#'
-#' \dontrun{ # keep cran check fast
-#' my_url <- 'http://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DRE/DADOS/dre_cia_aberta_2010.zip'
-#' df_out <- download_read_dfp_zip_file(url_in = my_url,
-#'                                      companies_cvm_codes = NULL,
-#'                                      type_format = 'con',
-#'                                      clean_data = TRUE)
-#' }
 download_read_dfp_zip_file <- function(url_in,
                                        companies_cvm_codes,
                                        type_format,

@@ -10,6 +10,7 @@ fix_cnpj <- function(cnpj_in) {
 
 
 select_responsible_beverage <- function() {
+
   # be responsible! - only drink after 18:00
   hour_now <- as.numeric(format(Sys.time(), '%H'))
 

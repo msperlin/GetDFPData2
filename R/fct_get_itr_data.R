@@ -1,22 +1,3 @@
-#' Downloads and reads ITR datasets
-#'
-#' **IN DEVELOPMENT and NOT EXPORTED (dont use it)**. Results dont seem right..
-#'
-#' The ITR (informacoes trimestrais) is the quarterly reporting system of companies
-#' traded at B3. This function will access the CVM ftp and parse all available files according to user
-#' choices
-#'
-#' @inheritParams get_dfp_data
-#' @param individual_dre_quarters Should the function calculate single quarters for companies: TRUE (default) or FALSE.
-#'  This option only applies for the DRE. Be aware that the original data only includes accumulated quarters.
-#'
-#' @return A list of tibbles, separated by column GRUPO_DFP
-#'
-#' @examples
-#'
-#' \dontrun{ # dontrun: keep cran check fast
-#' df_itr <- get_itr_data() # fetches all available datasets
-#' }
 get_itr_data <- function(companies_cvm_codes = NULL,
                          first_year = 2010,
                          last_year = lubridate::year(Sys.Date()),

@@ -3,7 +3,7 @@
 #' @param char_to_search Character for partial matching
 #' @inheritParams get_dfp_data
 #'
-#' @return A dataframe with companies
+#' @return A dataframe with information about available companies in the CVM database
 #' @export
 #'
 #' @examples

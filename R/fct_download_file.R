@@ -1,22 +1,3 @@
-#' Downloads files from the internet
-#'
-#' This function will make k attempts of download and use different download options according to operating system.
-#'
-#' @param dl_link Link to file
-#' @param dest_file Local file destination
-#' @param max_dl_tries Maximum number of attempts
-#' @param be_quiet Be quiet?
-#'
-#' @return Status (TRUE = OK)
-#' @examples
-#'
-#' my_url <- paste0('http://www.rad.cvm.gov.br/enetconsulta/',
-#'                   'frmDownloadDocumento.aspx?CodigoInstituicao=2',
-#'                   '&NumeroSequencialDocumento=46133')
-#'
-#' \dontrun{ # keep CHECK fast
-#' dl_status <- my_download_file(my_url, 'tempfile.zip', 10)
-#' }
 my_download_file <- function(dl_link, dest_file, max_dl_tries = 10, be_quiet = TRUE) {
 
   Sys.sleep(0.5)

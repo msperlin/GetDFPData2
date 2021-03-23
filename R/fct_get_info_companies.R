@@ -5,7 +5,7 @@
 #'
 #' @inheritParams get_dfp_data
 #'
-#' @return A dataframe with several information about B3 companies
+#' @return A dataframe with information about available companies in the database
 #' @export
 #'
 #' @examples

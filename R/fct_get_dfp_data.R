@@ -21,7 +21,7 @@
 #' @param cache_folder Path of cache folder to keep memoise and zip files
 #' @param do_shiny_progress Whether to use shiny progress indicator (default = FALSE)
 #'
-#' @return A list of tibbles, separated by column GRUPO_DFP
+#' @return A list of tibbles containing all requested financial data. Each element of the list is a table from DFP.
 #'
 #' @export
 #'
@@ -104,26 +104,18 @@ get_dfp_data <- function(companies_cvm_codes = NULL,
                          detail = paste0('\nCongrats :)'))
 
     }
-    #browser()
-    # shiny::Progress$new(
-    #   session = shiny_session, # shiny session
-    #   min = 0,
-    #   max = dplyr::n_distinct(df_ftp_dfp$year_files),
-    #   style = shiny::getShinyOption("progress.style",
-    #                          default = "notification")
-    # )
-
-
   }
 
-  df_dfp <- dplyr::bind_rows(purrr::map(df_ftp_dfp$full_links,
-                                        download_read_dfp_zip_file,
-                                        cache_folder = cache_folder,
-                                        clean_data = clean_data,
-                                        companies_cvm_codes = companies_cvm_codes,
-                                        type_docs = type_docs,
-                                        type_format = type_format,
-                                        do_shiny_progress = do_shiny_progress))
+  df_dfp <- dplyr::bind_rows(
+    purrr::map(df_ftp_dfp$full_links,
+               download_read_dfp_zip_file,
+               cache_folder = cache_folder,
+               clean_data = clean_data,
+               companies_cvm_codes = companies_cvm_codes,
+               type_docs = type_docs,
+               type_format = type_format,
+               do_shiny_progress = do_shiny_progress)
+  )
 
   l_out <- split(df_dfp, f = df_dfp$GRUPO_DFP)
 

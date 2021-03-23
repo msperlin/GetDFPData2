@@ -43,7 +43,7 @@ memoise for caching results (execution speed increases significantly)}
 \item{do_shiny_progress}{Whether to use shiny progress indicator (default = FALSE)}
 }
 \value{
-A list of tibbles, separated by column GRUPO_DFP
+A list of tibbles containing all requested financial data. Each element of the list is a table from DFP.
 }
 \description{
 The DFP (demonstrativos financeiros padronizados) is the annual reporting system of companies

@@ -1,20 +1,3 @@
-#' Downloads and reads ITR datasets
-#'
-#' @param url_in Url of file to download and read
-#' @inheritParams get_itr_data
-#'
-#' @return A dataframe with itr data
-#'
-#' @examples
-#'
-#' \dontrun{ # keep cran check fast
-#' my_url <- 'http://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/ITR/DADOS/itr_cia_aberta_2012.zip'
-#' df_out <- download_read_itr_zip_file(url_in = my_url,
-#'                                      companies_cvm_codes = NULL,
-#'                                      type_docs = 'DRE',
-#'                                      type_format = 'con',
-#'                                      clean_data = TRUE)
-#' }
 download_read_itr_zip_file <- function(url_in,
                                        companies_cvm_codes,
                                        type_docs,

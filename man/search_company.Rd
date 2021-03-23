@@ -12,7 +12,7 @@ search_company(char_to_search, cache_folder = "gdfpd2_cache")
 \item{cache_folder}{Path of cache folder to keep memoise and zip files}
 }
 \value{
-A dataframe with companies
+A dataframe with information about available companies in the CVM database
 }
 \description{
 Helps users search for a company

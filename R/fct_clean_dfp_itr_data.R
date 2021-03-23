@@ -1,16 +1,3 @@
-#' Cleans ITR/DFP table
-#'
-#' @param file_in path of csv file
-#' @param df_in A itr/dpf dataframe
-#'
-#' @return A Clean dataframe
-#'
-#' @examples
-#'
-#' \dontrun{
-#' # no example
-#' }
-#'
 clean_dfp_itr_data <- function(df_in, file_in) {
 
   message(' | Cleaning table' )

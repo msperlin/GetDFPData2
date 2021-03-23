@@ -10,7 +10,7 @@ get_info_companies(cache_folder = "gdfpd2_cache")
 \item{cache_folder}{Path of cache folder to keep memoise and zip files}
 }
 \value{
-A dataframe with several information about B3 companies
+A dataframe with information about available companies in the database
 }
 \description{
 Imports a dataset from cvm <http://sistemas.cvm.gov.br/cadastro/SPW_CIA_ABERTA.ZIP>, containing

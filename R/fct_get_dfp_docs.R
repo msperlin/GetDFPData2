@@ -1,13 +1,3 @@
-#' Get data from dfp docs
-#'
-#' @inheritParams get_dfp_data
-#'
-#' @return A dataframe
-#'
-#' @examples
-#' \dontrun{
-#' # no example
-#' }
 get_dfp_docs <- function(companies_cvm_codes,
                          type_docs, type_format, first_year, last_year, clean_data,
                          use_memoise,
@@ -37,7 +27,6 @@ get_dfp_docs <- function(companies_cvm_codes,
                                                    cache = mem_cache)
   }
 
-  browser()
   df_doc <- dplyr::bind_rows(
     purrr::map(df_ftp$full_links,
                download_read_dfp_zip_file,

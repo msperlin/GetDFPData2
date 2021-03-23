@@ -1,16 +1,3 @@
-#' Reads DFP csv file
-#'
-#' @param file_in path of csv file
-#' @inheritParams get_dfp_data
-#'
-#' @return A dataframe
-#'
-#' @examples
-#'
-#' \dontrun{
-#' # no example
-#' }
-#'
 read_dfp_csv <- function(file_in, clean_data) {
 
   message('\t\tReading ', basename(file_in), appendLF = FALSE)
