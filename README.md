@@ -7,7 +7,10 @@ A shiny app -- web interface -- is also available at  [https://www.msperlin.com/
 # Installation
 
 ```r
-# only in github, soon in CRAN
+# available in cran (stable)
+install.packages('GetDFPData2')
+
+# github (dev version)
 devtools::install_github('msperlin/GetDFPData2')
 ```
 
@@ -45,6 +48,5 @@ l_dfp <- get_dfp_data(companies_cvm_codes = 19615,
                       last_year = 2020)
 
 str(l_dfp)
-
 ```
 
