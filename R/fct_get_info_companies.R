@@ -33,20 +33,30 @@ get_info_companies <- function(cache_folder = 'gdfpd2_cache') {
     # get data from github
     message('\tDowloading file from CVM')
 
-    link_cvm <- 'http://sistemas.cvm.gov.br/cadastro/SPW_CIA_ABERTA.ZIP'
-    dest_file <-  file.path(tempfile(fileext = '.zip'))
+    # old link
+    #link_cvm <- 'http://sistemas.cvm.gov.br/cadastro/SPW_CIA_ABERTA.ZIP'
+
+    #new link
+    link_cvm <- "http://dados.cvm.gov.br/dados/CIA_ABERTA/CAD/DADOS/cad_cia_aberta.csv"
+
+    dest_file <-  file.path(tempfile(fileext = '.csv'))
 
     #suppressMessages({
     my_download_file(dl_link = link_cvm, dest_file = dest_file, max_dl_tries = 10)
     #})
+
+    CNPJ_CIA <- SIT <- NULL
     message('\tReading file from CVM')
     df_cvm <- readr::read_delim(dest_file,
-                                delim = '\t',
+                                delim = ";",
                                 locale = readr::locale(encoding = 'Latin1'),
-                                col_types = readr::cols(CNPJ = readr::col_character()))
+                                col_types = readr::cols(CNPJ_CIA = readr::col_character())) |>
+      dplyr::rename(CNPJ = CNPJ_CIA,
+                    SIT_REG = SIT)
 
-    # setting cnpj number
-    df_cvm$cnpj_number <- as.numeric(df_cvm$CNPJ)
+    # setting cnpj number (OLD code)
+    #df_cvm$cnpj_number <- as.numeric(df_cvm$CNPJ)
+
 
     message('\tSaving cache data')
     saveRDS(object = df_cvm, file = my_f_rdata)
