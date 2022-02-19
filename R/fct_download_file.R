@@ -23,13 +23,13 @@ my_download_file <- function(dl_link, dest_file, max_dl_tries = 10, be_quiet = T
   for (i_try in seq(max_dl_tries)) {
 
     try({
-      # old code. See issue 11: https://github.com/msperlin/GetDFPData/issues/11
+      # old code. See issue 11: https://github.com/msperlin/GetDFPData/issues/11/
       # utils::download.file(url = dl.link,
       #                      destfile = dest.file,
       #                      quiet = T,
       #                      mode = 'wb')
 
-      # fix for issue 13: https://github.com/msperlin/GetDFPData/issues/13
+      # fix for issue 13: https://github.com/msperlin/GetDFPData/issues/13/
       my.OS <- tolower(Sys.info()["sysname"])
       if (my.OS == 'windows') {
         utils::download.file(url = dl_link,

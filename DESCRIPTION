@@ -5,7 +5,7 @@ Date: 2022-02-18
 Authors@R: c(person("Marcelo", "Perlin", email = "marceloperlin@gmail.com", role = c("aut", "cre")),
              person("Guilherme", "Kirch", email = "guilhermekirch@gmail.com", role = c("aut")))  
 Description: Reads annual and quarterly financial reports from companies traded at B3, the Brazilian exchange 
-            <http://www.b3.com.br/>. 
+            <https://www.b3.com.br/>. 
             All data is downloaded and imported from CVM's public ftp site <http://dados.cvm.gov.br/dados/CIA_ABERTA/>.
 Depends:
     R (>= 3.5.0)
@@ -25,7 +25,7 @@ Imports:
     writexl
 ByteCompile: true
 License: GPL-2
-BugReports: https://github.com/msperlin/GetDFPData2/issues
+BugReports: https://github.com/msperlin/GetDFPData2/issues/
 URL: https://github.com/msperlin/GetDFPData2/
 LazyData: true
 RoxygenNote: 7.1.1
