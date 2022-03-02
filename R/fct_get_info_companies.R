@@ -50,7 +50,7 @@ get_info_companies <- function(cache_folder = 'gdfpd2_cache') {
     df_cvm <- readr::read_delim(dest_file,
                                 delim = ";",
                                 locale = readr::locale(encoding = 'Latin1'),
-                                col_types = readr::cols(CNPJ_CIA = readr::col_character())) |>
+                                col_types = readr::cols(CNPJ_CIA = readr::col_character())) %>%
       dplyr::rename(CNPJ = CNPJ_CIA,
                     SIT_REG = SIT)
 
