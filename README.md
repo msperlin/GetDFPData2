@@ -1,3 +1,6 @@
+  <!-- badges: start -->
+  [![R-CMD-check](https://github.com/msperlin/GetDFPData2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/msperlin/GetDFPData2/actions/workflows/R-CMD-check.yaml)
+  <!-- badges: end -->
 
 `GetDFPData2` is the second and backwards incompatible version of `GetDPFData`,  a R package for downloading annual financial reports from B3, the Brazilian financial exchange. Unlike its first iteration, `GetDFPData2` imports data using a  database of csv files from [CVM](http://dados.cvm.gov.br/dados/CIA_ABERTA/), which makes it execute much faster than its predecessor. However, the output is slightly different.
 

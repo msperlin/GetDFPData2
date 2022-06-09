@@ -1,7 +1,6 @@
 Package: GetDFPData2
 Title: Reading Annual and Quarterly Financial Reports from B3
-Version: 0.6.1
-Date: 2022-03-02
+Version: 0.6.2
 Authors@R: c(person("Marcelo", "Perlin", email = "marceloperlin@gmail.com", role = c("aut", "cre")),
              person("Guilherme", "Kirch", email = "guilhermekirch@gmail.com", role = c("aut")))  
 Description: Reads annual and quarterly financial reports from companies traded at B3, the Brazilian exchange 
@@ -22,17 +21,20 @@ Imports:
     tidyr,
     RCurl,
     shiny,
-    writexl
+    writexl,
+    stats
 ByteCompile: true
 License: GPL-2
 BugReports: https://github.com/msperlin/GetDFPData2/issues/
 URL: https://github.com/msperlin/GetDFPData2/
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 Suggests: 
     knitr,
     rmarkdown,
-    testthat,
+    testthat (>= 3.0.0),
     ggplot2,
-    covr
+    covr,
+    fs
 VignetteBuilder: knitr
+Config/testthat/edition: 3

@@ -13,7 +13,7 @@ get_info_companies(cache_folder = "gdfpd2_cache")
 A dataframe with information about available companies in the database
 }
 \description{
-Imports a dataset from cvm <http://sistemas.cvm.gov.br/cadastro/SPW_CIA_ABERTA.ZIP>, containing
+Imports a dataset from cvm <http://dados.cvm.gov.br/>, containing
 up to date information about companies, active or not.
 }
 \examples{
