@@ -2,7 +2,6 @@
 
 - Fixed issue with ftp change in CVM
 
-
 ## Version 0.6.1 (2022-03-02)
 
 - Fixed issue with cran check on oldrel (new pipeline only available in R>4.1)
