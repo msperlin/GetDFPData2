@@ -9,9 +9,17 @@ my_download_file <- function(dl_link, dest_file, max_dl_tries = 10, be_quiet = T
     current_size <- find_file_size(dest_file)
     dl_size <- find_dl_size(dl_link)
 
+    # BUG (see <https://github.com/msperlin/GetDFPData2/issues/8>)
+    # - only happens in windows
+    # - not sure why dl_size = NA, only in windows
+    # FIX: if is NA, force equality of sizes (skipping download)
+    if (is.na(dl_size)) dl_size <- current_size
+
     if (dl_size == current_size) {
+
       message(' -- same size as current, skipping download', appendLF = TRUE)
       return(TRUE)
+
     } else {
       message(' -- but differente size, downloading it..', appendLF = TRUE)
     }
