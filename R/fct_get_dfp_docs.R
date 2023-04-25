@@ -5,7 +5,7 @@ get_dfp_docs <- function(companies_cvm_codes,
 
   message('\nDownloading ', type_docs)
 
-  ftp_url <- paste0('http://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/')
+  ftp_url <- paste0('https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/')
   df_ftp_full <- get_contents_ftp(ftp_url)
 
   # filter dates

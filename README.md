@@ -2,9 +2,9 @@
   [![R-CMD-check](https://github.com/msperlin/GetDFPData2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/msperlin/GetDFPData2/actions/workflows/R-CMD-check.yaml)
   <!-- badges: end -->
 
-`GetDFPData2` is the second and backwards incompatible version of `GetDPFData`,  a R package for downloading annual financial reports from B3, the Brazilian financial exchange. Unlike its first iteration, `GetDFPData2` imports data using a  database of csv files from [CVM](http://dados.cvm.gov.br/dados/CIA_ABERTA/), which makes it execute much faster than its predecessor. However, the output is slightly different.
+`GetDFPData2` is the second and backwards incompatible version of `GetDPFData`,  a R package for downloading annual financial reports from B3, the Brazilian financial exchange. Unlike its first iteration, `GetDFPData2` imports data using a  database of csv files from [CVM](https://dados.cvm.gov.br/dados/CIA_ABERTA/), which makes it execute much faster than its predecessor. However, the output is slightly different.
 
-A shiny app -- web interface -- is also available at  [https://www.msperlin.com/shiny/GetDFPData2/](https://www.msperlin.com/shiny/GetDFPData2/).
+If you're looking for historical data from DFP, a set of compiled datasets are available in my [website](https://msperlin.com/data/).
 
 
 # Installation

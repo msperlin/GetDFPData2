@@ -38,7 +38,7 @@ get_itr_data <- function(companies_cvm_codes = NULL,
          'Available type_format are: ', paste0(available_formats, collapse = ', '))
   }
 
-  df_ftp_itr_full <- get_contents_ftp('http://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/ITR/DADOS/')
+  df_ftp_itr_full <- get_contents_ftp('https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/ITR/DADOS/')
 
   # remove 2010 (no data in zip file) - NO MORE NEEDED 2020-10-17
   # idx <- df_ftp_itr_full$year_files > 2010

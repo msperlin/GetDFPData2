@@ -1,6 +1,6 @@
 #' Returns a up to date table with information about B3 companies
 #'
-#' Imports a dataset from cvm <http://dados.cvm.gov.br/>, containing
+#' Imports a dataset from cvm <https://dados.cvm.gov.br/>, containing
 #' up to date information about companies, active or not.
 #'
 #' @inheritParams get_dfp_data
@@ -34,10 +34,10 @@ get_info_companies <- function(cache_folder = 'gdfpd2_cache') {
     message('\tDowloading file from CVM')
 
     # old link
-    #link_cvm <- 'http://sistemas.cvm.gov.br/cadastro/SPW_CIA_ABERTA.ZIP'
+    #link_cvm <- 'https://sistemas.cvm.gov.br/cadastro/SPW_CIA_ABERTA.ZIP'
 
     #new link
-    link_cvm <- "http://dados.cvm.gov.br/dados/CIA_ABERTA/CAD/DADOS/cad_cia_aberta.csv"
+    link_cvm <- "https://dados.cvm.gov.br/dados/CIA_ABERTA/CAD/DADOS/cad_cia_aberta.csv"
 
     dest_file <-  file.path(tempfile(fileext = '.csv'))
 

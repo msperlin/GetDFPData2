@@ -74,7 +74,7 @@ get_dfp_data <- function(companies_cvm_codes = NULL,
   }
 
 
-  df_ftp_dfp_full <- get_contents_ftp('http://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/')
+  df_ftp_dfp_full <- get_contents_ftp('https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/')
 
   # filter dates
   idx <- (df_ftp_dfp_full$year_files >= first_year) & df_ftp_dfp_full$year_files <= last_year
