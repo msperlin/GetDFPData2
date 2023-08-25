@@ -1,3 +1,7 @@
+## Version 0.6.4 (2023-09-25)
+
+- new function get_tickers() [issue #11](https://github.com/msperlin/GetDFPData2/issues/11)
+
 ## Version 0.6.3 (2023-04-24)
 
 - Fixed [issue #8](https://github.com/msperlin/GetDFPData2/issues/8)
