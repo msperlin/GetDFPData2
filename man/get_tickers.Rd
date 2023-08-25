@@ -9,6 +9,9 @@ get_tickers(year = lubridate::year(Sys.Date()))
 \arguments{
 \item{year}{year of the data (2018 onwards)}
 }
+\value{
+a dataframe with information about companies and tickers
+}
 \description{
-Retrieves a ticker list from cvm open data repository
+Retrieves ticker information from <https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/FCA/DADOS/>.
 }

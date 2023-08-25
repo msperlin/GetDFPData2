@@ -1,8 +1,10 @@
 #' Retrieves a ticker list from cvm open data repository
 #'
+#' Retrieves ticker information from <https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/FCA/DADOS/>.
+#'
 #' @param year year of the data (2018 onwards)
 #'
-#' @return
+#' @return a dataframe with information about companies and tickers
 #' @export
 #'
 #' @examples
@@ -24,12 +26,12 @@ get_tickers <- function(year = lubridate::year(Sys.Date())) {
   )
   temp_zip <- fs::file_temp(ext = "zip")
 
-  download.file(my_url, temp_zip)
+  utils::download.file(my_url, temp_zip)
 
   dir_to_unzip <- fs::file_temp("ticker-zip")
   fs::dir_create(dir_to_unzip)
 
-  unzip(temp_zip, junkpaths = TRUE, exdir = dir_to_unzip)
+  utils::unzip(temp_zip, junkpaths = TRUE, exdir = dir_to_unzip)
 
   available_f <- fs::dir_ls(dir_to_unzip)
 

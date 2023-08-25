@@ -22,7 +22,8 @@ Imports:
     RCurl,
     shiny,
     writexl,
-    stats
+    stats,
+    cli, glue, janitor
 ByteCompile: true
 License: GPL-2
 BugReports: https://github.com/msperlin/GetDFPData2/issues/
