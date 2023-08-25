@@ -3,5 +3,6 @@
 export(export_xlsx)
 export(get_dfp_data)
 export(get_info_companies)
+export(get_tickers)
 export(search_company)
 importFrom(magrittr,"%>%")
