@@ -14,8 +14,27 @@ clean_dfp_itr_data <- function(df_in, file_in) {
 
   missing_cols <- full_cols[!(full_cols %in% my_cols)]
 
-  if (length(missing_cols) !=0 ) {
-    df_in[, missing_cols] <- NA
+  if (length(missing_cols) != 0) {
+    default_nas <- list(
+      CNPJ_CIA = NA_character_,
+      CD_CVM = NA_real_,
+      DT_REFER = as.Date(NA),
+      DT_INI_EXERC = as.Date(NA),
+      DT_FIM_EXERC = as.Date(NA),
+      DENOM_CIA = NA_character_,
+      VERSAO = NA_real_,
+      GRUPO_DFP = NA_character_,
+      MOEDA = NA_character_,
+      ESCALA_MOEDA = NA_character_,
+      ORDEM_EXERC = NA_character_,
+      CD_CONTA = NA_character_,
+      DS_CONTA = NA_character_,
+      VL_CONTA = NA_real_,
+      COLUNA_DF = NA_character_
+    )
+    for (col in missing_cols) {
+      df_in[[col]] <- default_nas[[col]]
+    }
   }
 
   df_in <- df_in[, full_cols]

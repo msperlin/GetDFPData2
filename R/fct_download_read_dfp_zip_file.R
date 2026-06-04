@@ -6,9 +6,32 @@ download_read_dfp_zip_file <- function(url_in,
                                        clean_data,
                                        do_shiny_progress) {
 
-  # shiny progress
   # find year
   year <- stringr::str_extract(basename(url_in), '(\\d\\d\\d\\d)')
+
+  # Cache directory for RDS files
+  rds_cache_dir <- file.path(cache_folder, "processed_RDS")
+  if (!dir.exists(rds_cache_dir)) dir.create(rds_cache_dir, recursive = TRUE)
+
+  # Check if all requested combinations are cached
+  combinations <- expand.grid(doc = type_docs, format = type_format, stringsAsFactors = FALSE)
+  rds_filenames <- paste0("dfp_cia_aberta_", combinations$doc, "_", combinations$format, "_", year, "_cleaned_", clean_data, ".rds")
+  rds_paths <- file.path(rds_cache_dir, rds_filenames)
+
+  if (all(file.exists(rds_paths))) {
+    cli::cli_h2("Processing Year {year} (Using Cached RDS)")
+    read_and_filter <- function(path) {
+      df <- readRDS(path)
+      if (!is.null(companies_cvm_codes)) {
+        idx <- df$CD_CVM %in% companies_cvm_codes
+        df <- df[idx, ]
+      }
+      return(df)
+    }
+    df_out <- dplyr::bind_rows(purrr::map(rds_paths, read_and_filter))
+    cli::cli_alert_success("Got {nrow(df_out)} rows | {length(unique(df_out$CD_CVM))} companies")
+    return(df_out)
+  }
 
   if (do_shiny_progress) {
     my_drink <- select_responsible_beverage()
@@ -33,7 +56,6 @@ download_read_dfp_zip_file <- function(url_in,
 
   cli::cli_alert_info("Unzipping")
   # unzip file in tempdir
-  #message('\t\t\tunzipping file')
   unzip_dir <- file.path(tempdir(), tools::file_path_sans_ext(
     basename(url_in) ) )
   utils::unzip(zipfile = dest_file,exdir = unzip_dir,
@@ -53,23 +75,35 @@ download_read_dfp_zip_file <- function(url_in,
   type_files_format <- as.character(purrr::map(temp_str, 3))
 
   # filter by type and format
-  idx <- (type_files_doc %in% type_docs)&(type_files_format %in% type_format)
-  unzipped_files <- unzipped_files[idx]
+  idx_target <- (type_files_doc %in% type_docs)&(type_files_format %in% type_format)
+  unzipped_target <- unzipped_files[idx_target]
+  type_target_doc <- type_files_doc[idx_target]
+  type_target_format <- type_files_format[idx_target]
 
-  if (length(unzipped_files) == 0) {
+  if (length(unzipped_target) == 0) {
     stop('Cant find any files for selected type_docs')
   }
 
-  #message('\t\t\t\tfound ', length(unzipped_files), ' files')
-  #message('\t\t\treading files', appendLF = FALSE)
-  df_out <- dplyr::bind_rows(purrr::map(unzipped_files,
-                                        read_dfp_csv, clean_data = clean_data))
+  process_file <- function(file_path, doc, format) {
+    df <- read_dfp_csv(file_path, clean_data = clean_data)
+    
+    # Save full parsed and cleaned data frame to RDS cache
+    cached_path <- file.path(rds_cache_dir, paste0("dfp_cia_aberta_", doc, "_", format, "_", year, "_cleaned_", clean_data, ".rds"))
+    saveRDS(df, cached_path)
 
-  # filter by company
-  if (!is.null(companies_cvm_codes)) {
-    idx <- df_out$CD_CVM %in% companies_cvm_codes
-    df_out <- df_out[idx, ]
+    if (!is.null(companies_cvm_codes)) {
+      idx <- df$CD_CVM %in% companies_cvm_codes
+      df <- df[idx, ]
+    }
+    return(df)
   }
+
+  df_out <- dplyr::bind_rows(
+    purrr::pmap(
+      list(unzipped_target, type_target_doc, type_target_format),
+      process_file
+    )
+  )
 
   cli::cli_alert_success("Got {nrow(df_out)} rows | {length(unique(df_out$CD_CVM))} companies")
 

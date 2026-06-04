@@ -13,7 +13,7 @@ my_temp_folder <- fs::path_temp("getdfpdata2-cache-dfp")
 fs::dir_create(my_temp_folder)
 
 first_year <- 2020
-last_year <- 2024
+last_year <- 2020
 
 test_that("Get dfp data (no cache) - vanilla call", {
 
