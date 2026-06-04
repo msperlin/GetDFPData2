@@ -8,6 +8,8 @@ get_itr_data <- function(companies_cvm_codes = NULL,
                          use_memoise = FALSE,
                          cache_folder = 'gdfpd2_cache') {
 
+  cli::cli_h1("Downloading ITR (Quarterly) Financial Reports")
+
   # check args
   available_docs <- c('BPA',
                       'BPP',

@@ -3,7 +3,7 @@ get_dfp_docs <- function(companies_cvm_codes,
                          use_memoise,
                          cache_folder) {
 
-  message('\nDownloading ', type_docs)
+  cli::cli_alert_info("Downloading: {paste(type_docs, collapse = ', ')}")
 
   ftp_url <- paste0('https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/')
   df_ftp_full <- get_contents_ftp(ftp_url)
@@ -18,7 +18,7 @@ get_dfp_docs <- function(companies_cvm_codes,
          paste0(df_ftp_full$year_files, collapse = ', '))
   }
 
-  message('\tFound ', nrow(df_ftp), ' files at ftp')
+  cli::cli_alert_info("Found {nrow(df_ftp)} files at FTP")
 
   # setup memoise
   if (use_memoise) {

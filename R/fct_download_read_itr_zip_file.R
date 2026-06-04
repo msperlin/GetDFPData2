@@ -12,8 +12,9 @@ download_read_itr_zip_file <- function(url_in,
   # find appropriate beverage
   my_beverage <- select_responsible_beverage()
 
-  message('Downloading ', basename(url_in), ' (grab some ',
-          my_beverage, '. This might take a while..)', appendLF = TRUE)
+  year <- stringr::str_extract(basename(url_in), '(\\d\\d\\d\\d)')
+  cli::cli_h2("Processing Year {year}")
+  cli::cli_alert_info("Downloading {basename(url_in)} (grab some {my_beverage}. This might take a while..)")
 
   dest_file <- file.path(dir_zip, basename(url_in))
 
@@ -21,7 +22,7 @@ download_read_itr_zip_file <- function(url_in,
                    dest_file = dest_file,
                    max_dl_tries = 10, be_quiet = TRUE)
 
-  message('\t\tUnzipping')
+  cli::cli_alert_info("Unzipping")
   # unzip file in tempdir
   #message('\t\t\tunzipping file')
   unzip_dir <- file.path(tempdir(), tools::file_path_sans_ext(
@@ -62,9 +63,7 @@ download_read_itr_zip_file <- function(url_in,
     df_out <- df_out[idx, ]
   }
 
-  message('\tGot ', nrow(df_out), ' rows | ',
-          length(unique(df_out$CD_CVM)), ' companies', ' | ',
-          length(unique(df_out$DT_FIM_EXERC)), ' fiscal date(s)')
+  cli::cli_alert_success("Got {nrow(df_out)} rows | {length(unique(df_out$CD_CVM))} companies | {length(unique(df_out$DT_FIM_EXERC))} fiscal date(s)")
 
   # clean up
   unlink(unzip_dir, recursive = TRUE)

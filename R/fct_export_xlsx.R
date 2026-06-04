@@ -14,15 +14,17 @@
 #' }
 export_xlsx <- function(l_dfp, f_xlsx = 'GetDFPData-XLSX.xlsx') {
 
+  cli::cli_h1("Exporting Financial Data")
+
   my_file_ext <- tools::file_ext(f_xlsx)
 
   if (my_file_ext != 'xlsx') stop('File extension for f_xlsx should be .xlsx')
 
-  message('Exporting file to ', f_xlsx)
+  cli::cli_alert_info("Exporting file to {f_xlsx}")
   writexl::write_xlsx(x = l_dfp,
                       path = f_xlsx)
 
-  message(stringr::str_glue('\nDone! File saved at {f_xlsx}.') )
+  cli::cli_alert_success("Done! File saved at {f_xlsx}.")
   return(invisible(TRUE))
 
 }

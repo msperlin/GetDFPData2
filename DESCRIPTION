@@ -28,8 +28,9 @@ ByteCompile: true
 License: GPL-2
 BugReports: https://github.com/msperlin/GetDFPData2/issues/
 URL: https://github.com/msperlin/GetDFPData2/
+Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 8.0.0
 Suggests: 
     knitr,
     rmarkdown,

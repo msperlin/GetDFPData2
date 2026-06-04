@@ -1,6 +1,10 @@
 read_dfp_csv <- function(file_in, clean_data) {
 
-  message('\t\tReading ', basename(file_in), appendLF = FALSE)
+  if (clean_data) {
+    cli::cli_alert_info("Reading & cleaning {basename(file_in)}")
+  } else {
+    cli::cli_alert_info("Reading {basename(file_in)}")
+  }
   suppressMessages({
 
     VL_CONTA <- NULL

@@ -13,6 +13,8 @@
 #' }
 search_company <- function(char_to_search, cache_folder = 'gdfpd2_cache') {
 
+  cli::cli_h1("Searching B3 Companies")
+
   df_cvm <- get_info_companies(cache_folder)
 
   unique_names <- unique(df_cvm$DENOM_SOCIAL)
@@ -24,14 +26,11 @@ search_company <- function(char_to_search, cache_folder = 'gdfpd2_cache') {
 
   temp_df <- unique(df_cvm[df_cvm$DENOM_SOCIAL %in% char_out, ])
 
-  message('Found ', nrow(temp_df), ' companies:')
+  cli::cli_alert_info("Found {nrow(temp_df)} companies:")
 
   for (i_company in seq(nrow(temp_df))) {
 
-    message(paste0(temp_df$DENOM_SOCIAL[i_company],
-                   ' | situation = ', temp_df$SIT_REG[i_company],
-                   ' | sector = ', temp_df$SETOR_ATIV[i_company],
-                   ' | CD_CVM = ',temp_df$CD_CVM[i_company]))
+    cli::cli_text("{temp_df$DENOM_SOCIAL[i_company]} | situation = {temp_df$SIT_REG[i_company]} | sector = {temp_df$SETOR_ATIV[i_company]} | CD_CVM = {temp_df$CD_CVM[i_company]}")
   }
 
   return(invisible(temp_df[ , c("CD_CVM", "DENOM_SOCIAL", "SIT_REG" )]))

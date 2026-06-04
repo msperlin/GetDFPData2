@@ -8,7 +8,12 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' tickers <- get_tickers()
+#' }
 get_tickers <- function(year = lubridate::year(Sys.Date())) {
+
+  cli::cli_h1("Retrieving Company Tickers")
 
   min_year <- 2018
   max_year <- lubridate::year(Sys.Date())

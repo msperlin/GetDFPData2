@@ -39,6 +39,8 @@ get_dfp_data <- function(companies_cvm_codes = NULL,
                          cache_folder = 'gdfpd2_cache',
                          do_shiny_progress = FALSE) {
 
+  cli::cli_h1("Downloading DFP (Annual) Financial Reports")
+
   # check args
   available_docs <- c('BPA',
                       'BPP',

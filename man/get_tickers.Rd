@@ -15,3 +15,8 @@ a dataframe with information about companies and tickers
 \description{
 Retrieves ticker information from <https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/FCA/DADOS/>.
 }
+\examples{
+\dontrun{
+tickers <- get_tickers()
+}
+}

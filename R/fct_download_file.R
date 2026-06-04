@@ -4,7 +4,6 @@ my_download_file <- function(dl_link, dest_file, max_dl_tries = 10, be_quiet = T
 
   #browser()
   if (file.exists(dest_file)) {
-    message('\tFile already exists', appendLF = FALSE)
 
     current_size <- find_file_size(dest_file)
     dl_size <- find_dl_size(dl_link)
@@ -17,15 +16,15 @@ my_download_file <- function(dl_link, dest_file, max_dl_tries = 10, be_quiet = T
 
     if (dl_size == current_size) {
 
-      message(' -- same size as current, skipping download', appendLF = TRUE)
+      cli::cli_alert_info("File already exists (same size as current, skipping download)")
       return(TRUE)
 
     } else {
-      message(' -- but differente size, downloading it..', appendLF = TRUE)
+      cli::cli_alert_info("File already exists (but different size, downloading it..)")
     }
 
   } else {
-    message('\tFile not found, downloading it..', appendLF = TRUE)
+    cli::cli_alert_info("File not found, downloading it..")
   }
 
   for (i_try in seq(max_dl_tries)) {
@@ -62,11 +61,10 @@ my_download_file <- function(dl_link, dest_file, max_dl_tries = 10, be_quiet = T
     })
 
     if (file.size(dest_file) < 10  ){
-      message(paste0('\t\tError in downloading. Attempt ',i_try,'/', max_dl_tries),
-              appendLF = FALSE)
+      cli::cli_alert_warning("Error in downloading. Attempt {i_try}/{max_dl_tries}")
       Sys.sleep(1)
     } else {
-      message('\tSuccess', appendLF = TRUE)
+      cli::cli_alert_success("Success")
       return(TRUE)
     }
 

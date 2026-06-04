@@ -23,14 +23,15 @@ download_read_dfp_zip_file <- function(url_in,
   dir_zip <- file.path(cache_folder, 'DFP_zip_files')
   if (!dir.exists(dir_zip)) dir.create(dir_zip, recursive = TRUE)
 
-  message('\tDowloading ', basename(url_in), appendLF = TRUE)
+  cli::cli_h2("Processing Year {year}")
+  cli::cli_alert_info("Downloading {basename(url_in)}")
   dest_file <- file.path(dir_zip, basename(url_in))
 
   flag_dl <- my_download_file(dl_link = url_in,
                               dest_file = dest_file,
                               max_dl_tries = 10, be_quiet = TRUE)
 
-  message('\t\tUnzipping', appendLF = TRUE)
+  cli::cli_alert_info("Unzipping")
   # unzip file in tempdir
   #message('\t\t\tunzipping file')
   unzip_dir <- file.path(tempdir(), tools::file_path_sans_ext(
@@ -70,7 +71,7 @@ download_read_dfp_zip_file <- function(url_in,
     df_out <- df_out[idx, ]
   }
 
-  message('\t\tGot ', nrow(df_out), ' rows | ', length(unique(df_out$CD_CVM)), ' companies')
+  cli::cli_alert_success("Got {nrow(df_out)} rows | {length(unique(df_out$CD_CVM))} companies")
 
   # clean up zip dir
   unlink(unzip_dir, recursive = TRUE)

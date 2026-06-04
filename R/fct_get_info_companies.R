@@ -19,19 +19,19 @@ get_info_companies <- function(cache_folder = 'gdfpd2_cache') {
   # create folder
   if (!dir.exists(cache_folder)) dir.create(cache_folder)
 
-  message('Fetching info on B3 companies')
+  cli::cli_alert_info("Fetching info on B3 companies")
   # check if cache file exists
   my_f_rdata <- file.path(cache_folder,
                           paste0('df_info_CACHED_',
                                  Sys.Date(), '.rds') )
 
   if (file.exists(my_f_rdata)) {
-    message('\tFound cache file. Loading data..')
+    cli::cli_alert_info("Found cache file. Loading data..")
     df_cvm <- readRDS(my_f_rdata)
 
   } else {
     # get data from github
-    message('\tDowloading file from CVM')
+    cli::cli_alert_info("Downloading file from CVM")
 
     # old link
     #link_cvm <- 'https://sistemas.cvm.gov.br/cadastro/SPW_CIA_ABERTA.ZIP'
@@ -46,7 +46,7 @@ get_info_companies <- function(cache_folder = 'gdfpd2_cache') {
     #})
 
     CNPJ_CIA <- SIT <- NULL
-    message('\tReading file from CVM')
+    cli::cli_alert_info("Reading file from CVM")
     df_cvm <- readr::read_delim(dest_file,
                                 delim = ";",
                                 locale = readr::locale(encoding = 'Latin1'),
@@ -58,7 +58,7 @@ get_info_companies <- function(cache_folder = 'gdfpd2_cache') {
     #df_cvm$cnpj_number <- as.numeric(df_cvm$CNPJ)
 
 
-    message('\tSaving cache data')
+    cli::cli_alert_info("Saving cache data")
     saveRDS(object = df_cvm, file = my_f_rdata)
   }
 
@@ -67,8 +67,7 @@ get_info_companies <- function(cache_folder = 'gdfpd2_cache') {
   n_actives <- sum(unique(temp_df)$SIT_REG == 'ATIVO')
   n_inactives <- sum(unique(temp_df)$SIT_REG != 'ATIVO' )
 
-  message(paste0('\tGot ', nrow(df_cvm), ' lines for ', length(unique(df_cvm$DENOM_SOCIAL)), ' companies ',
-                 '[Actives = ', n_actives, ' Inactives = ', n_inactives, ']') )
+  cli::cli_alert_success("Got {nrow(df_cvm)} lines for {length(unique(df_cvm$DENOM_SOCIAL))} companies [Actives = {n_actives} Inactives = {n_inactives}]")
 
   return(df_cvm)
 
