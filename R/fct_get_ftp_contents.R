@@ -1,5 +1,5 @@
 #' @importFrom magrittr %>%
-get_contents_ftp <- function(ftp_url) {
+get_contents_ftp_raw <- function(ftp_url) {
 
   my_html <- xml2::read_html(ftp_url)
 
@@ -27,3 +27,5 @@ get_contents_ftp <- function(ftp_url) {
   return(df_out)
 
 }
+
+get_contents_ftp <- memoise::memoise(get_contents_ftp_raw)
