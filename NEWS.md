@@ -1,3 +1,11 @@
+## Version 0.6.5 (2026-06-04)
+
+- Migrated all console message printing from `message()` to the `cli` package, introducing structured headers (`cli_h1`, `cli_h2`) and semantic alerts (`cli_alert_info`, `cli_alert_success`, `cli_alert_warning`, `cli_text`).
+- Implemented year-doc level RDS caching (`gdfpd2_cache/processed_RDS/`) to avoid redundant unzipping and parsing of CSV files.
+- Implemented early row filtering by company codes before binding data frames in memory, reducing footprint and overhead.
+- Resolved type-coercion compatibility issues with logical/character classes in `dplyr::bind_rows` for zero-row filtered dataframes.
+- Memoised CVM FTP directory listings session-wide to avoid redundant web scraping latency.
+
 ## Version 0.6.4 (2023-09-25)
 
 - new function get_tickers() [issue #11](https://github.com/msperlin/GetDFPData2/issues/11)
